@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <stdexcept>
+#include <array>
 
 class hangman_exception : public std::runtime_error
 {
@@ -69,6 +70,19 @@ private:
 	const std::string solution_;
 };
 
+namespace hangman_utility
+{
+	constexpr int get_letter_count()
+	{
+		return 'z' - 'a' + 1;
+	}
+}
+
+struct guessed_letter_info
+{
+	bool guessed{ false };
+	bool was_correct{ false };
+};
 
 class hangman
 {
@@ -83,9 +97,16 @@ public:
 		lost
 	};
 
+	enum class e_guess_letter_result
+	{
+		correct,
+		incorrect,
+		already_guessed
+	};
+
 	hangman() = delete;
 
-	bool guess_letter(char letter);
+	e_guess_letter_result guess_letter(char letter);
 	bool guess_solution(const std::string& solution);
 
 	e_game_state game_state() const noexcept
@@ -121,6 +142,8 @@ protected:
 	e_game_state game_state_;
 	std::string solution_;
 	std::string working_solution_;
+
+	std::array<guessed_letter_info, hangman_utility::get_letter_count()> guessed_letters_;
 
 	unsigned char missed_letters_count_;
 };

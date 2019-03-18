@@ -7,6 +7,7 @@ set(
 	main.cpp
 )
 add_executable(hangman_console_app ${hangman_console_app_srcs})
+target_link_libraries(hangman_console_app hangman_lib)
 
 if(ENABLE_COVERAGE)
 	target_link_libraries(hangman_console_app --coverage)

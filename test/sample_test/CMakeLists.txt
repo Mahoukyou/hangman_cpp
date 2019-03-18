@@ -4,7 +4,7 @@ add_executable(sample_test ${SRCS})
 
 target_link_libraries(
 	sample_test
-	template_project
+	hangman_lib
 	gtest
 	gmock_main
 )
