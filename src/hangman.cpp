@@ -1,9 +1,22 @@
 #include "hangman.h"
 #include <cctype>
 
-int letter_to_zero_based_index(const char letter)
+inline int letter_to_zero_based_index(const char letter)
 {
 	return 'a' - tolower(letter);
+}
+
+hangman::hangman() :
+	game_state_{ e_game_state::none },
+	missed_letters_count_{ 0 }
+{
+
+}
+
+hangman::~hangman()
+{
+	// pure virtual destructor - so we can force this class to be abstract
+	// since we don't have any other pure virtual function
 }
 
 // Using enum since caller might want to call (like a sound) something on guessed or not guessed
@@ -35,7 +48,16 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 
 	guessed_letters_[letter_to_zero_based_index(letter)] = { true, found_letter };
 
-	// todo check for win
+	if (!found_letter)
+	{
+		++missed_letters_count_;
+	}
+
+	if (is_same_string(solution(), working_solution()))
+	{
+		game_state_ = e_game_state::won;
+	}
+
 
 	return found_letter ? e_guess_letter_result::correct : e_guess_letter_result::incorrect;
 }
@@ -47,19 +69,35 @@ bool hangman::guess_solution(const std::string& solution)
 		throw hangman_exception_invalid_guess_solution{ solution };
 	}
 
-	const auto is_correct = std::equal(solution.begin(), solution.end(), this->solution().begin(), [](const char a, const char b)
-	{
-		return tolower(a) == tolower(b);
-	});
+	const auto is_correct = is_same_string(solution, this->solution());
 
-	// todo check for win
+	if (!is_correct)
+	{
+		game_state_ = e_game_state::lost;
+	}
 
 	return is_correct;
 }
 
-void hangman::set_new_game(std::string&& solution)
+void hangman::set_new_game(std::string&& new_solution)
 {
+	if(!validate_solution(new_solution))
+	{
+		throw hangman_exception_invalid_solution{ std::move(new_solution) };
+	}
 
+	solution_ = std::move(new_solution);
+	working_solution_ = solution();
+
+	for(auto& sign : working_solution_)
+	{
+		if(isalpha(sign))
+		{
+			sign = '_';
+		}
+	}
+
+	game_state_ = e_game_state::playing;
 }
 
 bool hangman::validate_solution(const std::string& solution)
@@ -78,4 +116,17 @@ bool hangman::validate_solution(const std::string& solution)
 	}
 
 	return true;
+}
+
+bool hangman::is_same_string(const std::string& a, const std::string& b)
+{
+	if (a.size() != b.size())
+	{
+		return false;
+	}
+
+	return std::equal(a.begin(), a.end(), b.begin(), [](const char a, const char b)
+	{
+		return tolower(a) == tolower(b);
+	});
 }

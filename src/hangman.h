@@ -104,7 +104,8 @@ public:
 		already_guessed
 	};
 
-	hangman() = delete;
+	hangman();
+	virtual ~hangman() = 0;
 
 	e_guess_letter_result guess_letter(char letter);
 	bool guess_solution(const std::string& solution);
@@ -136,8 +137,9 @@ public:
 
 
 protected:
-	void set_new_game(std::string&& solution);
+	void set_new_game(std::string&& new_solution);
 	static bool validate_solution(const std::string& solution);
+	static bool is_same_string(const std::string& a, const std::string& b);
 
 	e_game_state game_state_;
 	std::string solution_;
