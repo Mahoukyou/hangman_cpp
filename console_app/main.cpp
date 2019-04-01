@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include "hangman_file.h"
 
 void print_letters(const hangman& hangman_game)
 {
@@ -38,9 +39,9 @@ void print_work_solution(const hangman& hangman_game)
 
 int main()
 {
-	hangman_custom hangman_game{};
+	hangman_file hangman_game{ "" };
 
-	hangman_game.begin_new_game("abcd");
+	hangman_game.begin_new_game();
 	while(hangman_game.game_state() == hangman::e_game_state::playing)
 	{
 #ifdef _WIN32

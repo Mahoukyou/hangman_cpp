@@ -8,6 +8,8 @@ set(
 	hangman.cpp
 	hangman_custom.h
 	hangman_custom.cpp
+	hangman_file.h
+	hangman_file.cpp
 )
 add_library(hangman_lib STATIC ${hangman_lib_srcs})
 set_target_properties(hangman_lib PROPERTIES LINKER_LANGUAGE CXX)
