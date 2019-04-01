@@ -3,7 +3,7 @@
 
 inline int letter_to_zero_based_index(const char letter)
 {
-	return 'a' - tolower(letter);
+	return tolower(letter) - 'a';
 }
 
 hangman::hangman() :
@@ -50,7 +50,8 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 
 	if (!found_letter)
 	{
-		++missed_letters_count_;
+		++missed_letters_count_; // todo check and end game..
+		return e_guess_letter_result::incorrect;
 	}
 
 	if (is_same_string(solution(), working_solution()))
@@ -58,8 +59,7 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 		game_state_ = e_game_state::won;
 	}
 
-
-	return found_letter ? e_guess_letter_result::correct : e_guess_letter_result::incorrect;
+	return e_guess_letter_result::correct;
 }
 
 bool hangman::guess_solution(const std::string& solution)
@@ -70,7 +70,6 @@ bool hangman::guess_solution(const std::string& solution)
 	}
 
 	const auto is_correct = is_same_string(solution, this->solution());
-
 	if (!is_correct)
 	{
 		game_state_ = e_game_state::lost;
@@ -79,14 +78,14 @@ bool hangman::guess_solution(const std::string& solution)
 	return is_correct;
 }
 
-void hangman::set_new_game(std::string&& new_solution)
+void hangman::set_new_game(const std::string& new_solution)
 {
 	if(!validate_solution(new_solution))
 	{
-		throw hangman_exception_invalid_solution{ std::move(new_solution) };
+		throw hangman_exception_invalid_solution{ new_solution };
 	}
 
-	solution_ = std::move(new_solution);
+	solution_ = new_solution;
 	working_solution_ = solution();
 
 	for(auto& sign : working_solution_)

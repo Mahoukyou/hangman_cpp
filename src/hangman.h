@@ -76,6 +76,11 @@ namespace hangman_utility
 	{
 		return 'z' - 'a' + 1;
 	}
+
+	constexpr char zero_based_index_to_letter(const int index)
+	{
+		return index + 'A';
+	}
 }
 
 struct guessed_letter_info
@@ -125,6 +130,11 @@ public:
 		return working_solution_;
 	}
 
+	const auto& guessed_letters() const noexcept
+	{
+		return guessed_letters_;
+	}
+
 	unsigned char missed_letters_count() const noexcept
 	{
 		return missed_letters_count_;
@@ -137,7 +147,7 @@ public:
 
 
 protected:
-	void set_new_game(std::string&& new_solution);
+	void set_new_game(const std::string& new_solution);
 	static bool validate_solution(const std::string& solution);
 	static bool is_same_string(const std::string& a, const std::string& b);
 
