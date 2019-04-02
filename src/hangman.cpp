@@ -1,4 +1,5 @@
 #include "hangman.h"
+
 #include <cctype>
 
 inline int letter_to_zero_based_index(const char letter)
@@ -50,7 +51,13 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 
 	if (!found_letter)
 	{
-		++missed_letters_count_; // todo check and end game..
+		++missed_letters_count_;
+
+		if (missed_letters_count() == max_amount_of_wrong_guesses)
+		{
+			game_state_ = e_game_state::lost;
+		}
+
 		return e_guess_letter_result::incorrect;
 	}
 
@@ -80,7 +87,7 @@ bool hangman::guess_solution(const std::string& solution)
 
 void hangman::set_new_game(const std::string& new_solution)
 {
-	if(!validate_solution(new_solution))
+	if (!validate_solution(new_solution))
 	{
 		throw hangman_exception_invalid_solution{ new_solution };
 	}
@@ -88,9 +95,9 @@ void hangman::set_new_game(const std::string& new_solution)
 	solution_ = new_solution;
 	working_solution_ = solution();
 
-	for(auto& sign : working_solution_)
+	for (auto& sign : working_solution_)
 	{
-		if(isalpha(sign))
+		if (isalpha(sign))
 		{
 			sign = '_';
 		}

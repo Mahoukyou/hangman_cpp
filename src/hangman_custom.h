@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hangman.h"
+
 /* Hangman game by using a specific solution */
 class hangman_custom : public hangman
 {
