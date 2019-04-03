@@ -61,7 +61,7 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 		return e_guess_letter_result::incorrect;
 	}
 
-	if (is_same_string(solution(), working_solution()))
+	if (is_same_solution(solution(), working_solution()))
 	{
 		game_state_ = e_game_state::won;
 	}
@@ -76,7 +76,7 @@ bool hangman::guess_solution(const std::string& solution)
 		throw hangman_exception_invalid_guess_solution{ solution };
 	}
 
-	const auto is_correct = is_same_string(solution, this->solution());
+	const auto is_correct = is_same_solution(solution, this->solution());
 	if (!is_correct)
 	{
 		game_state_ = e_game_state::lost;
@@ -124,7 +124,7 @@ bool hangman::validate_solution(const std::string& solution)
 	return true;
 }
 
-bool hangman::is_same_string(const std::string& a, const std::string& b)
+bool hangman::is_same_solution(const std::string& a, const std::string& b)
 {
 	if (a.size() != b.size())
 	{
