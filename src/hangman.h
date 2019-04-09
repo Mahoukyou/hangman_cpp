@@ -146,7 +146,6 @@ public:
 		return max_amount_of_wrong_guesses - missed_letters_count();
 	}
 
-
 protected:
 	void set_new_game(const std::string& new_solution) noexcept(false);
 	static bool validate_solution(const std::string& solution);

@@ -53,7 +53,7 @@ public:
 };
 
 
-/* Hangman game by using a specific solution */
+/* Hangman game by using a random or specific solution from a file */
 class hangman_file : public hangman
 {
 public:
