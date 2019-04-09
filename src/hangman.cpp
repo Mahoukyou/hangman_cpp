@@ -7,14 +7,14 @@ inline int letter_to_zero_based_index(const char letter)
 	return tolower(letter) - 'a';
 }
 
-hangman::hangman() :
+hangman::hangman() noexcept :
 	game_state_{ e_game_state::none },
 	missed_letters_count_{ 0 }
 {
 
 }
 
-hangman::~hangman()
+hangman::~hangman() noexcept
 {
 	// pure virtual destructor - so we can force this class to be abstract
 	// since we don't have any other pure virtual function

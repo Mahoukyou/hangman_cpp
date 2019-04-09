@@ -73,12 +73,12 @@ private:
 
 namespace hangman_utility
 {
-	constexpr int get_letter_count()
+	constexpr int get_letter_count() noexcept
 	{
 		return 'z' - 'a' + 1;
 	}
 
-	constexpr char zero_based_index_to_letter(const int index)
+	constexpr char zero_based_index_to_letter(const int index) noexcept
 	{
 		return index + 'A';
 	}
@@ -110,11 +110,11 @@ public:
 		already_guessed
 	};
 
-	hangman();
-	virtual ~hangman() = 0;
+	hangman() noexcept;
+	virtual ~hangman() noexcept = 0;
 
-	e_guess_letter_result guess_letter(char letter);
-	bool guess_solution(const std::string& solution);
+	e_guess_letter_result guess_letter(char letter) noexcept(false);
+	bool guess_solution(const std::string& solution) noexcept(false);
 
 	e_game_state game_state() const noexcept
 	{
@@ -148,7 +148,7 @@ public:
 
 
 protected:
-	void set_new_game(const std::string& new_solution);
+	void set_new_game(const std::string& new_solution) noexcept(false);
 	static bool validate_solution(const std::string& solution);
 	static bool is_same_solution(const std::string& a, const std::string& b);
 

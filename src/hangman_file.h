@@ -57,13 +57,13 @@ public:
 class hangman_file : public hangman
 {
 public:
-	explicit hangman_file(std::filesystem::path file_path);
-	~hangman_file() override = default;
+	explicit hangman_file(std::filesystem::path file_path) noexcept(false);
+	~hangman_file() noexcept override = default;
 
-	bool begin_new_game();
-	bool begin_new_game(size_t solution_index);
+	bool begin_new_game() noexcept(false);
+	bool begin_new_game(size_t solution_index) noexcept(false);
 
-	void set_new_solutions_file(std::filesystem::path file_path);
+	void set_new_solutions_file(std::filesystem::path file_path) noexcept(false);
 
 	const auto& file_path() const noexcept
 	{
@@ -81,8 +81,8 @@ public:
 	}
 
 private:
-	std::vector<std::string> get_solutions_from_file() const;
-	const std::string& get_random_solution() const;
+	std::vector<std::string> get_solutions_from_file() const noexcept(false);
+	const std::string& get_random_solution() const noexcept(false);
 
 	std::filesystem::path file_path_;
 
