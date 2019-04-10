@@ -30,7 +30,7 @@ bool hangman_file::begin_new_game()
 
 bool hangman_file::begin_new_game(const size_t solution_index)
 {
-	if(solution_index >= solutions().size())
+	if (solution_index >= solutions().size())
 	{
 		throw hangman_exception_solution_index_out_of_bounds{ solution_index };
 	}

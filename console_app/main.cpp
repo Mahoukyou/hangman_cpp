@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <assert.h>
 
 void print_letters(const hangman& hangman_game)
 {
@@ -60,6 +61,7 @@ void print_post_game_info(const hangman& hangman_game)
 
 	default:
 		std::cerr << "Nary impl for this game state\n";
+		assert(0 && "We should not have got here");
 	}
 }
 

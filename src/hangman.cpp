@@ -2,8 +2,9 @@
 
 #include <cctype>
 
-inline int letter_to_zero_based_index(const char letter)
+inline unsigned letter_to_zero_based_index(const char letter)
 {
+	assert(std::isalpha(letter) && "Not a letter");
 	return tolower(letter) - 'a';
 }
 
@@ -24,7 +25,7 @@ hangman::~hangman() noexcept
 // But there is another possibility, an already guessed letter
 hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 {
-	if(game_state() != e_game_state::playing)
+	if (game_state() != e_game_state::playing)
 	{
 		return e_guess_letter_result::none;
 	}
@@ -76,7 +77,7 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 
 bool hangman::guess_solution(const std::string& solution)
 {
-	if(game_state() != e_game_state::playing)
+	if (game_state() != e_game_state::playing)
 	{
 		return false;
 	}

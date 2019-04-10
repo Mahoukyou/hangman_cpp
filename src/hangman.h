@@ -3,6 +3,7 @@
 #include <string>
 #include <stdexcept>
 #include <array>
+#include <cassert>
 
 class hangman_exception : public std::runtime_error
 {
@@ -73,14 +74,15 @@ private:
 
 namespace hangman_utility
 {
-	constexpr int get_letter_count() noexcept
+	constexpr unsigned get_letter_count() noexcept
 	{
 		return 'z' - 'a' + 1;
 	}
 
-	constexpr char zero_based_index_to_letter(const int index) noexcept
+	constexpr char zero_based_index_to_letter(const unsigned letter_index) noexcept
 	{
-		return index + 'A';
+		assert(letter_index < get_letter_count() && "Letter index out of bounds");
+		return letter_index + 'A';
 	}
 }
 
@@ -93,7 +95,7 @@ struct guessed_letter_info
 class hangman
 {
 public:
-	static constexpr int max_amount_of_wrong_guesses{ 8 };
+	static constexpr unsigned max_amount_of_wrong_guesses{ 8 };
 
 	enum class e_game_state
 	{
@@ -137,12 +139,12 @@ public:
 		return guessed_letters_;
 	}
 
-	unsigned char missed_letters_count() const noexcept
+	unsigned missed_letters_count() const noexcept
 	{
 		return missed_letters_count_;
 	}
 
-	unsigned char guesses_left() const noexcept
+	unsigned guesses_left() const noexcept
 	{
 		return max_amount_of_wrong_guesses - missed_letters_count();
 	}
@@ -158,5 +160,5 @@ protected:
 
 	std::array<guessed_letter_info, hangman_utility::get_letter_count()> guessed_letters_;
 
-	unsigned char missed_letters_count_;
+	unsigned missed_letters_count_;
 };
