@@ -24,6 +24,11 @@ hangman::~hangman() noexcept
 // But there is another possibility, an already guessed letter
 hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 {
+	if(game_state() != e_game_state::playing)
+	{
+		return e_guess_letter_result::none;
+	}
+
 	if (std::isalpha(letter) == 0)
 	{
 		throw hangman_exception_invalid_guess_letter{ letter };
@@ -71,6 +76,11 @@ hangman::e_guess_letter_result hangman::guess_letter(const char letter)
 
 bool hangman::guess_solution(const std::string& solution)
 {
+	if(game_state() != e_game_state::playing)
+	{
+		return false;
+	}
+
 	if (!validate_solution(solution))
 	{
 		throw hangman_exception_invalid_guess_solution{ solution };

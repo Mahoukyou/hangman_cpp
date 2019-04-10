@@ -105,6 +105,7 @@ public:
 
 	enum class e_guess_letter_result
 	{
+		none,
 		correct,
 		incorrect,
 		already_guessed
