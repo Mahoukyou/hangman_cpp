@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-#include <assert.h>
+#include <cassert>
 
 void print_letters(const hangman& hangman_game)
 {
