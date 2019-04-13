@@ -15,11 +15,9 @@ hangman::hangman() noexcept :
 
 }
 
-hangman::~hangman() noexcept
-{
-	// pure virtual destructor - so we can force this class to be abstract
-	// since we don't have any other pure virtual function
-}
+// pure virtual destructor - so we can force this class to be abstract
+// since we don't have any other pure virtual function
+hangman::~hangman() noexcept = default;
 
 // Using enum since caller might want to call (like a sound) something on guessed or not guessed
 // But there is another possibility, an already guessed letter
@@ -135,14 +133,14 @@ bool hangman::validate_solution(const std::string& solution)
 	return true;
 }
 
-bool hangman::is_same_solution(const std::string& a, const std::string& b)
+bool hangman::is_same_solution(const std::string& str_a, const std::string& str_b)
 {
-	if (a.size() != b.size())
+	if (str_a.size() != str_b.size())
 	{
 		return false;
 	}
 
-	return std::equal(a.begin(), a.end(), b.begin(), [](const char a, const char b)
+	return std::equal(str_a.begin(), str_a.end(), str_b.begin(), [](const char a, const char b)
 	{
 		return tolower(a) == tolower(b);
 	});

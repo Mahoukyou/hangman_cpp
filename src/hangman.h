@@ -152,7 +152,7 @@ public:
 protected:
 	void set_new_game(const std::string& new_solution) noexcept(false);
 	static bool validate_solution(const std::string& solution);
-	static bool is_same_solution(const std::string& a, const std::string& b);
+	static bool is_same_solution(const std::string& str_a, const std::string& str_b);
 
 	e_game_state game_state_;
 	std::string solution_;
